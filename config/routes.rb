@@ -1,3 +1,5 @@
 Spree::Core::Engine.add_routes do
-  # Add your extension routes here
+
+  resource :stock_notify, only: [:create]
+  
 end
