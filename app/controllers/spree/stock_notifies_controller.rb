@@ -1,8 +1,7 @@
 module Spree
   class StockNotifiesController < Spree::StoreController
-
     def create
-      @stock_notify = Spree::StockNotify.new(stock_notify_params.merge(user_id: spree_current_user.id))
+      @stock_notify = Spree::StockNotify.new(stock_notify_params.merge(user_id: spree_current_user.try(:id)))
       @product = Spree::Variant.find_by(id: stock_notify_params[:variant_id]).product
 
       @product_by_variant = product_path(@product, variant_id: stock_notify_params[:variant_id])
@@ -21,12 +20,5 @@ module Spree
     def stock_notify_params
       params.permit(:variant_id, :email)
     end
-
-    def set_stock_notify_by_email
-      unless spree_current_user.present?
-        Spree::StockNotify.find_by(email: stock_notify_params[:email])
-      end
-    end
-
   end
 end
