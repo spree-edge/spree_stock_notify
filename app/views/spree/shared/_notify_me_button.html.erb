@@ -1,15 +1,11 @@
 <% unless @product.in_stock? %>
-  <% if spree_current_user.present? %>
-    <%= form_with(model: @stock_notify, url: stock_notify_path, method: :post, data: { turbo_stream: true }) do |form| %>
+  <%= form_with(model: @stock_notify, url: stock_notify_path, method: :post, data: { turbo_stream: true }) do |form| %>
+    <% if spree_current_user.present? %>
       <%= form.hidden_field :email, value: spree_current_user.email %>
-      <%= form.hidden_field :variant_id, value: @product.master.id %>
-      <%= form.submit 'Notify Me', data: { turbo_stream: true} %>
-    <% end %>
-  <% else %>
-    <%= form_with(model: @stock_notify, url: stock_notify_path, method: :post, data: { turbo_stream: true }) do |form| %>
+    <% else %>
       <%= form.text_field :email, placeholder: 'Enter your email address' %>
-      <%= form.hidden_field :variant_id, value: @product.master.id %>
-      <%= form.submit 'Notify Me', data: { turbo_stream: true} %>
     <% end %>
+    <%= form.hidden_field :variant_id, value: @product.master.id %>
+    <%= form.submit 'Notify Me', data: { turbo_stream: true} %>
   <% end %>
 <% end %>
