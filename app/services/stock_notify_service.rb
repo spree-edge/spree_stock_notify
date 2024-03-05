@@ -13,13 +13,12 @@ class StockNotifyService
     end
 
     notified_emails.each do |email|
-      stock_notify_ids = Spree::StockNotify.where(email: email).pluck(:variant_id)
+      stock_notify_ids = Spree::StockNotify.where(email: email, notified: false).pluck(:variant_id)
       variants = Spree::Variant.where(id: stock_notify_ids)
-      if variants.present?
-        puts "Sending notification to #{email}"
-
-        mark_stock_notify_as_notified(variants)
+      variants.each do |variant|
+        StockNotifyMailer.with(email: email, variant: variant).variant_back_in_stock.deliver_now
       end
+      mark_stock_notify_as_notified(variants)
     end
   end
 
@@ -27,6 +26,6 @@ class StockNotifyService
 
   def self.mark_stock_notify_as_notified(variants)
     Spree::StockNotify.where(variant_id: variants.pluck(:id), notified: false)
-                            .update_all(notified: true)
+                      .update_all(notified: true)
   end
 end

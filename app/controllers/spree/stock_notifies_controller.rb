@@ -7,11 +7,11 @@ module Spree
       @product_by_variant = product_path(@product, variant_id: stock_notify_params[:variant_id])
       if @stock_notify.save
         respond_to do |format|
-          format.turbo_stream { redirect_to @product_by_variant, notice: 'We will notify you when the product will be available.' }
-          format.html
+          format.turbo_stream { render turbo_stream: turbo_stream.replace('notification_frame', partial: 'spree/shared/notification') }
+          format.html { redirect_to @product_by_variant, notice: 'We will notify you when the product will be available.' }
         end
       else
-        redirect_to @product_by_variant, notice: 'Something went wrong'
+        redirect_to @product_by_variant, status: :unprocessable_entity
       end
     end
 

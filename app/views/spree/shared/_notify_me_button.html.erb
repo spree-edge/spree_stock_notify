@@ -1,11 +1,19 @@
 <% unless @product.in_stock? %>
-  <%= form_with(model: @stock_notify, url: stock_notify_path, method: :post, data: { turbo_stream: true }) do |form| %>
-    <% if spree_current_user.present? %>
-      <%= form.hidden_field :email, value: spree_current_user.email %>
-    <% else %>
-      <%= form.text_field :email, placeholder: 'Enter your email address' %>
-    <% end %>
-    <%= form.hidden_field :variant_id, value: @product.master.id %>
-    <%= form.submit 'Notify Me', data: { turbo_stream: true} %>
+  <%= turbo_frame_tag 'notification_frame' do %>
+    <div class="notification-box add-to-cart-form-general-availability">
+      <div class="text-center mb-2 mt-3 add-to-cart-form-general-availability">Sold Out!</div>
+      <span> Click 'Notify Me' to get notification when it's back in stock.</span>
+      <%= form_with(model: @stock_notify, url: stock_notify_path, method: :post, data: { turbo_stream: true }) do |form| %>
+        <% unless spree_current_user.present? %>
+         <%= form.text_field :email, placeholder: 'Enter your email address', class: 'p-2 placeholder-glow', required: true %>
+         
+        <% else %>
+        <%= form.hidden_field :email, value: spree_current_user.email %>
+         
+        <% end %>
+        <%= form.hidden_field :variant_id, value: @product.master.id %>
+        <%= form.submit 'Notify Me!', data: { turbo_stream: true}, class: 'btn btn-secondary' %>
+      <% end %>
+    </div>
   <% end %>
 <% end %>

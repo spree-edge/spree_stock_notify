@@ -1,7 +1,16 @@
 module SpreeStockNotify
   module Generators
     class InstallGenerator < Rails::Generators::Base
+      source_root(File.expand_path(File.dirname(__FILE__)))
       class_option :migrate, type: :boolean, default: true
+
+      def copy_sidekiq_rb_file
+        copy_file 'templates/sidekiq.rb', 'config/initializers/sidekiq.rb'
+      end
+
+      def copy_schedule_yml_file
+        copy_file 'templates/schedule.yml', 'config/schedule.yml'
+      end
 
       def add_migrations
         run 'bundle exec rake railties:install:migrations FROM=spree_stock_notify'
