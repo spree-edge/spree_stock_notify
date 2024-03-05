@@ -7,7 +7,6 @@ class Spree::StockNotify < ApplicationRecord
 	private
 
 	def skip_email_validation?
-		debugger
 	  email.blank? && !user.blank?
 	end
 
