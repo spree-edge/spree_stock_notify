@@ -9,7 +9,6 @@ module Spree
       if @stock_notify.save
         respond_to do |format|
           format.turbo_stream { render turbo_stream: turbo_stream.replace('notification_frame', partial: 'spree/shared/notification') }
-          format.html { redirect_to @product_by_variant, notice: 'We will notify you when the product will be available.' }
         end
       else
         redirect_to @product_by_variant, status: :unprocessable_entity

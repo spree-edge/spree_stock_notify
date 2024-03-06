@@ -1,0 +1,8 @@
+en:
+  hello: "Hello world"
+  spree:
+    already_subscribed: "You are already subscribed to receive notifications for this product when it becomes available."
+    subscribed: "Thank you for your interest! We'll notify you as soon as the product becomes available."
+    click_notify_me: "Click 'Notify Me' to get notification when it's back in stock."
+    notify_me_button: "Notify Me!"
+    variant_back_in_stock: "is now back in stock for ordering. Quantities may be limited. Please click on the product link below if you would like to place an order."

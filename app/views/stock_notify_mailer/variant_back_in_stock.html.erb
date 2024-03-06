@@ -2,8 +2,8 @@
   <div class="row justify-content-center">
     <div class="col-md-8">
       <h1 class="text-center">Variant back in stock</h1>
-      <P>Dear <%= @email %>,
-        <%= params[:variant] %>is now back in stock for ordering. Quantities may be limited. Please click on the product link below if you would like to place an order.</p>
+      <p>Dear <%= @email %>,</p>
+      <p><%= @variant.name %> <%= Spree.t(:variant_back_in_stock) %></p>
     </div>
   </div>
 </div>
