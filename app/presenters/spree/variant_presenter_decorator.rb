@@ -10,7 +10,6 @@ module Spree
     end
 
     def call
-    	debugger
       @variants.map do |variant|
         {
           display_price: display_price(variant),
@@ -29,7 +28,9 @@ module Spree
       end
     end
 
+    # User specific stock_notify corresponding to variants
     def stock_notify(variant)
+      return [] unless @current_user
       @current_user.stock_notify.where(variant_id: variant.id)
     end
 	end

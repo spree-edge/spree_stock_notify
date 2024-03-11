@@ -11,7 +11,6 @@ $(document).ready(function() {
       method: 'PUT',
       data: formData,
       success: function(response) {
-        debugger;
         // Handle success response
         console.log(response);
         $('#notify-me-form').replaceWith("<%= j render partial: 'spree/shared/notification' %>"); // Replace form with alert partial
