@@ -12,6 +12,10 @@ module SpreeStockNotify
         copy_file 'templates/schedule.yml', 'config/schedule.yml'
       end
 
+      def add_javascripts
+        append_file 'vendor/assets/javascripts/spree/frontend/all.js', "//= require spree/frontend/spree_stock_notify\n"
+      end
+
       def add_migrations
         run 'bundle exec rake railties:install:migrations FROM=spree_stock_notify'
       end
