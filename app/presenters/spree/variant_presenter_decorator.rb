@@ -1,11 +1,8 @@
 module Spree
-	module VariantPresenterDecorator
+  module VariantPresenterDecorator
+
     def initialize(opts = {})
-      @variants = opts[:variants]
-      @is_product_available_in_currency = opts[:is_product_available_in_currency]
-      @current_currency = opts[:current_currency]
-      @current_price_options = opts[:current_price_options]
-      @current_store = opts[:current_store]
+      super(opts)
       @current_user = opts[:current_user]
     end
 
@@ -33,7 +30,7 @@ module Spree
       return [] unless @current_user
       @current_user.stock_notify.where(variant_id: variant.id)
     end
-	end
+  end
 end
 
 Spree::VariantPresenter.prepend(Spree::VariantPresenterDecorator)
