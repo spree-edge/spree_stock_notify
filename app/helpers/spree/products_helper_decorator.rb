@@ -1,23 +1,23 @@
 module Spree
   module ProductsHelperDecorator
-		def check_current_user_notify(spree_current_user)
-			# For variants, display of notify form will be handled in cart_form.js
-		  return true unless @product.variants.empty?
+    def check_current_user_notify(spree_current_user)
+      # For variants, display of notify form will be handled in cart_form.js
+      return true unless @product.variants.empty?
 
-		  master_product = @product.master
+      master_product = @product.master
 
-		  # Show notify form if guest user
-		  return true if spree_current_user.nil? && !master_product.in_stock?
+      # Show notify form if guest user
+      return true if spree_current_user.nil? && !master_product.in_stock?
 
-		  user_specific_stock_notify = master_product.stock_notify.where(user_id: spree_current_user&.id, notified: false)
-		 	if user_specific_stock_notify.any? || master_product.in_stock?
-	 		 return false 
-	 		else
-	 			return true
-	 		end
-		end
+      user_specific_stock_notify = master_product.stock_notify.where(user_id: spree_current_user&.id, notified: false)
+      if user_specific_stock_notify.any? || master_product.in_stock?
+        return false 
+      else
+        return true
+      end
+    end
 
-		def product_variants_matrix(is_product_available_in_currency)
+    def product_variants_matrix(is_product_available_in_currency)
       Spree::VariantPresenter.new(
         variants: @variants,
         is_product_available_in_currency: is_product_available_in_currency,
