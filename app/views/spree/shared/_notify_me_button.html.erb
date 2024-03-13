@@ -12,7 +12,7 @@
       <% end %>
       <%= form.submit Spree.t(:notify_me_button), class: 'btn btn-secondary', id: 'notify-me-button' %>
     <% end %>
-    <div class="text-center mb-1 mt-1">Sold Out!</div>
+    <div class="mb-1 mt-1">Sold Out!</div>
      <span class="mt-2 mb-2"> <%= Spree.t(:click_notify_me) %> </span>
   </div>
 <% elsif !@product.in_stock? %>
