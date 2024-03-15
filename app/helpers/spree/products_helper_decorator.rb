@@ -10,11 +10,7 @@ module Spree
       return true if spree_current_user.nil? && !master_product.in_stock?
 
       user_specific_stock_notify = master_product.stock_notify.where(user_id: spree_current_user&.id, notified: false)
-      if user_specific_stock_notify.any? || master_product.in_stock?
-        return false 
-      else
-        return true
-      end
+      !(user_specific_stock_notify.any? || master_product.in_stock?)
     end
 
     def product_variants_matrix(is_product_available_in_currency)
