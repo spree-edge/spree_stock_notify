@@ -28,7 +28,7 @@ module Spree
     # User specific stock_notify corresponding to variants
     def stock_notify(variant)
       return [] unless @current_user
-      @current_user.stock_notify.where(variant_id: variant.id)
+      @current_user.stock_notify.where(variant_id: variant.id, notified: false)
     end
   end
 end

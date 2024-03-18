@@ -6,7 +6,7 @@ module Spree
 
     def mark_as_notified
       if !stock_notification && stock_notify.exists?(notified: false)
-        self.stock_notification = true
+        self.update(stock_notification: true)
         save
       end
     end

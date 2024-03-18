@@ -58,7 +58,7 @@ Spree.ready(function() {
     var hiddenField= document.getElementById('stock_notify_variant_id')
     hiddenField.value = variantId
 
-    if (variant.in_stock || (variant.stock_notify.length > 0 && variant.stock_notify[0]?.notified == false)) {
+    if (variant.in_stock || (variant.stock_notify.length > 0)) {
       document.getElementById('stock-notify-form').classList.add('d-none');
       if (variant.in_stock) {
         document.getElementById('already-subscribed').classList.add('d-none');
