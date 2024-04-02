@@ -40,27 +40,30 @@ Spree.ready(function() {
     button.addEventListener('click', handleClickForVariant);
   });
 
-  var checkedInput = radioButtonInputs.filter(':checked');
-
-  if (checkedInput.length > 0) {
-    handleVariantSelection(checkedInput[0])
+  function handleClickForVariant(event) {
+    handleVariantSelection($(event.currentTarget))
   }
 
-  function handleClickForVariant() {
-    handleVariantSelection(this)
-  }
+  function handleVariantSelection($radioButton) {
+    if ($radioButton && $radioButton.length == 0 && !this.withOptionValueses){
+      return;
+    }
 
-  function handleVariantSelection(radioButton) {
-    var variantId = radioButton.dataset.variantId
-    this.variants = JSON.parse($cartFormProduct.attr('data-variants'))
-    const variant = this.variants.find(item => item.id == variantId);
+    if ($radioButton && $radioButton.length > 0) this.saveCheckedOptionValue($radioButton)
+
+    var variant = this.selectedVariant()
+    if ((typeof variant !== 'object' || variant === null) && this.withOptionValues) {
+      document.getElementById('stock-notify-form').classList.add('d-none');
+      document.getElementById('already-subscribed').classList.add('d-none');
+      return;
+    }
 
     var hiddenField= document.getElementById('stock_notify_variant_id')
-    hiddenField.value = variantId
+    hiddenField.value = variant.id
 
     if (variant.in_stock || (variant.stock_notify.length > 0)) {
       document.getElementById('stock-notify-form').classList.add('d-none');
-      if (variant.in_stock) {
+      if (variant.in_stock){
         document.getElementById('already-subscribed').classList.add('d-none');
       }
     } 
@@ -73,4 +76,6 @@ Spree.ready(function() {
       document.getElementById('already-subscribed').classList.remove('d-none');
     }
   }
+
+  handleVariantSelection(null)
 });
