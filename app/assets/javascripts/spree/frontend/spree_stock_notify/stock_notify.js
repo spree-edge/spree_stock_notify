@@ -24,8 +24,14 @@ Spree.ready(function() {
         contentType: false,
         success: function(response) {
           console.log(response);
-          var fetchDiv = document.getElementById('stock-notify-form')
-          fetchDiv.innerHTML = '<div class="mb-2 mt-3 text-bold">Thank you for your interest! We will notify you as soon as the product becomes available.</div>';
+          var fetchDiv = document.getElementById('stock-notify-form');
+          fetchDiv.style.display = 'none';
+          var flashMessagesDiv = document.getElementById('flash-messages');
+          flashMessagesDiv.classList.remove("d-none");
+          flashMessagesDiv.innerHTML = 'Thank you for your interest! We will notify you as soon as the product becomes available.';
+          setTimeout(function() {
+              flashMessagesDiv.classList.add("d-none");
+          }, 3000);
         },
         error: function(xhr, status, error) {
           parsedError = JSON.parse(xhr.responseText);

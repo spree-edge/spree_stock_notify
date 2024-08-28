@@ -4,6 +4,7 @@
       <h1 class="text-center">Variant back in stock</h1>
       <p>Dear <%= @email %>,</p>
       <p><%= @variant.name %> <%= Spree.t(:variant_back_in_stock) %></p>
+      <p><%= link_to @variant.product.name, spree.product_url(@variant.product) %></p>
     </div>
   </div>
 </div>
