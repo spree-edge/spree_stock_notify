@@ -56,30 +56,33 @@ Spree.ready(function() {
     }
 
     if ($radioButton && $radioButton.length > 0) this.saveCheckedOptionValue($radioButton)
-
-    var variant = this.selectedVariant()
-    if ((typeof variant !== 'object' || variant === null) && this.withOptionValues) {
-      document.getElementById('stock-notify-form').classList.add('d-none');
-      document.getElementById('already-subscribed').classList.add('d-none');
-      return;
-    }
-
-    var hiddenField= document.getElementById('stock_notify_variant_id')
-    hiddenField.value = variant.id
-
-    if (variant.in_stock || (variant.stock_notify.length > 0)) {
-      document.getElementById('stock-notify-form').classList.add('d-none');
-      if (variant.in_stock){
+    if (typeof this.selectedVariant === 'function'){
+      var variant = this.selectedVariant()
+      if ((typeof variant !== 'object' || variant === null) && this.withOptionValues) {
+        document.getElementById('stock-notify-form').classList.add('d-none');
         document.getElementById('already-subscribed').classList.add('d-none');
+        return;
       }
-    } 
-    else {
-      document.getElementById('stock-notify-form').classList.remove('d-none')
-      document.getElementById('already-subscribed').classList.add('d-none');
-    }
 
-    if (variant.stock_notify.length > 0 && variant.in_stock == false) {
-      document.getElementById('already-subscribed').classList.remove('d-none');
+      var hiddenField= document.getElementById('stock_notify_variant_id')
+      if(hiddenField && variant){
+        hiddenField.value = variant.id
+
+        if (variant.in_stock || (variant.stock_notify.length > 0)) {
+          document.getElementById('stock-notify-form').classList.add('d-none');
+          if (variant.in_stock){
+            document.getElementById('already-subscribed').classList.add('d-none');
+          }
+        }
+        else {
+          document.getElementById('stock-notify-form').classList.remove('d-none')
+          document.getElementById('already-subscribed').classList.add('d-none');
+        }
+
+        if (variant.stock_notify.length > 0 && variant.in_stock == false) {
+          document.getElementById('already-subscribed').classList.remove('d-none');
+        }
+      }
     }
   }
 
