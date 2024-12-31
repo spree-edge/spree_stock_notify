@@ -4,9 +4,6 @@
   <%= spree_breadcrumbs(@taxon, '', @product) %>
 </div>
 
-<div id="flash-messages" class="alert alert-success text-center d-none">
-</div>
-
 <% cache cache_key_for_product do %>
   <div class="container pt-4 product-details">
     <div class="row" data-hook="product_show">
@@ -18,7 +15,6 @@
           </h1>
           <div id="cart-form" data-hook="cart_form">
             <%= render 'cart_form', variant_change_identifier: 'productCarousel' %>
-            <%= render 'spree/products/wishlist_form' %>
           </div>
           <div class="mt-2">
             <%= render 'spree/shared/notify_me_button' %>
@@ -50,8 +46,6 @@
   <%= products_structured_data([@product]) %>
 
   <%= render 'spree/shared/product_added_modal' %>
-  <%= render "spree/shared/yotpo_widget", locals: {product: @product }%>
-
 <% end %>
 
 <div
