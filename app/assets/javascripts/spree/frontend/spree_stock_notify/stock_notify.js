@@ -24,6 +24,10 @@ Spree.ready(function() {
         contentType: false,
         success: function(response) {
           console.log(response);
+          var modalBackdrop = document.querySelector('.modal-backdrop');
+          if (modalBackdrop) {
+            modalBackdrop.remove();
+          }
           var fetchDiv = document.getElementById('stock-notify-form');
           fetchDiv.style.display = 'none';
           var flashMessagesDiv = document.getElementById('flash-messages');
