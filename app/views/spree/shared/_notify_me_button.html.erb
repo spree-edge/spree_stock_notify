@@ -1,23 +1,43 @@
-<% if Flipper.enabled?(:stock_notify, current_store.try(:id)) %>
-  <% if check_current_user_notify(spree_current_user) %>
-    <div class="notification-box" id="stock-notify-form">
-      <%= form_with(model: @stock_notify, url: stock_notify_api_v2_storefront_product_path(product_slug: @product.slug), method: :put, id: 'notify-me-form') do |form| %>
-        <%= form.fields_for :stock_notify do |stock_notify_form| %>
-          <% unless spree_current_user.present? %>
-            <%= stock_notify_form.text_field :email, placeholder: 'Enter your email address', class: 'p-2 mb-2 mt-2', required: true %>
-          <% else %>
-            <%= stock_notify_form.hidden_field :email, value: spree_current_user.email %>
-            <%= stock_notify_form.hidden_field :user_id, value: spree_current_user.id %>
-          <% end %>
-          <%= stock_notify_form.hidden_field :variant_id, value: @product.master.id, id:'stock_notify_variant_id'%>
+<% if check_current_user_notify(spree_current_user) %>
+  <div class="notification-box d-none" id="stock-notify-form">
+    <%= form_with(model: @stock_notify, url: stock_notify_api_v2_storefront_product_path(product_slug: @product.slug), method: :put, id: 'notify-me-form') do |form| %>
+      <%= form.fields_for :stock_notify do |stock_notify_form| %>
+        <% unless spree_current_user.present? %>
+          <div class="mt-4 d-flex align-items-center gap-3 position-relative">
+            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#notifyme-modal">
+              Notify Me
+            </button>
+          </div>
+          <div class="modal fade" id="notifyme-modal" tabindex="-1" role="dialog" aria-labelledby="notifyme-modal-label" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="notifyme-modal-label">Enter Email-Id</h5>
+                </div>
+                <div class="modal-body">
+                  <p class="text-center">Enter your email so we can notify you when the product is back in stock.</p>
+                  <%= stock_notify_form.text_field :email, name: 'stock_notify[email]', id: 'stock_notify_email', placeholder: 'Email', class: 'form-control', required: true %>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          <%= stock_notify_form.hidden_field :email, name: 'stock_notify[email]', value: spree_current_user.email %>
+          <%= stock_notify_form.hidden_field :user_id, name: 'stock_notify[user_id]', value: spree_current_user.id %>
         <% end %>
-        <%= form.submit Spree.t(:notify_me_button), class: 'btn btn-secondary', id: 'notify-me-button' %>
+        <%= stock_notify_form.hidden_field :variant_id, name: 'stock_notify[variant_id]', value: @product.master.id, id:'stock_notify_variant_id'%>
       <% end %>
-      <div class="mb-1 mt-1">Sold Out!</div>
-       <span class="mt-2 mb-2"> <%= Spree.t(:click_notify_me) %> </span>
-    </div>
-  <% elsif !@product.in_stock? %>
-    <div class="mb-1 mt-1 text-bold text-danger">Already Subscribed For Notify</div>
-  <% end %>
-  <div class="mb-1 mt-1 text-bold text-danger d-none" id= "already-subscribed">Already Subscribed For Notify</div>
+      <% if spree_current_user.present? %>
+        <%= form.submit Spree.t(:notify_me_button), class: 'btn btn-secondary' %>
+      <% end %>
+    <% end %>
+    <div class="mb-1 mt-1">Sold Out!</div>
+    <span class="mt-2 mb-2"> <%= Spree.t(:click_notify_me) %> </span>
+  </div>
+<% elsif !@product.in_stock? %>
+  <div class="mb-1 mt-1 font-weight-bold text-danger">Already Subscribed For Notify</div>
 <% end %>
+<div class="mb-1 mt-1 font-weight-bold text-danger d-none" id="already-subscribed">Already Subscribed For Notify</div>
