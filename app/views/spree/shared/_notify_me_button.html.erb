@@ -4,12 +4,11 @@
       <%= form.fields_for :stock_notify do |stock_notify_form| %>
         <% unless spree_current_user.present? %>
           <div class="mt-4 d-flex align-items-center gap-3 position-relative">
-            <button data-bs-toggle="modal" data-bs-target="#notifyme-modal" class="btn btn-dark" type="button">
+            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#notifyme-modal">
               Notify Me
             </button>
           </div>
-
-          <div id="notifyme-modal" tabindex="-1" aria-hidden="true" class="modal fade" aria-labelledby="notifyme-modal-label">
+          <div class="modal fade" id="notifyme-modal" tabindex="-1" role="dialog" aria-labelledby="notifyme-modal-label" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
